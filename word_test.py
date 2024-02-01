@@ -31,9 +31,12 @@ def test_words(word_list, mode, error_tracker):
         if mode == 1:
             answer = input(f"{translation}: ")
             correct = answer.strip().lower() == word.lower()
-        else:
-            answer = input(f"{word}: ")
-            correct = answer.strip() == translation
+        else:  # 英译中模式
+            print(word)
+            input("按下Enter显示中文意思...")
+            print(f"中文意思：{translation}")
+            answer = input("是否做对了？(1: 正确, 0: 错误): ")
+            correct = answer.strip() == '1'
 
         if correct:
             print(f"正确！进度：{i}/{len(words)}")
@@ -44,20 +47,24 @@ def test_words(word_list, mode, error_tracker):
 
     return wrong_words
 
-def display_errors(list_number, round_count, error_tracker):
+def display_errors(word_list, mode, list_number, round_count, error_tracker):
     print(f"\nlist{list_number}，第{round_count}轮的错误统计：")
     sorted_errors = sorted(error_tracker.items(), key=lambda item: item[1], reverse=True)
     for word, count in sorted_errors:
         if count > 0:
-            print(f"{word} 错误 {count} 次")
+            if mode == 1:  # 中译英
+                print(f"{word_list[word]} - {word} 错误 {count} 次")
+            else:  # 英译中
+                print(f"{word} - {word_list[word]} 错误 {count} 次")
 
 def main():
     word_lists = load_word_lists("word_lists.json")
     full_list_name, list_number = select_list(word_lists)
     mode = select_mode()
 
-    error_tracker = {word: 0 for word in word_lists[full_list_name].keys()}
-    wrong_words = test_words(word_lists[full_list_name], mode, error_tracker)
+    word_list = word_lists[full_list_name]
+    error_tracker = {word: 0 for word in word_list.keys()}
+    wrong_words = test_words(word_list, mode, error_tracker)
     round_count = 1
 
     while wrong_words:
@@ -66,7 +73,7 @@ def main():
         round_count += 1
 
     print("\n所有单词测试完毕！")
-    display_errors(list_number, round_count - 1, error_tracker)
+    display_errors(word_list, mode, list_number, round_count - 1, error_tracker)
 
 if __name__ == "__main__":
     main()
