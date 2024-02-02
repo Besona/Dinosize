@@ -1,5 +1,6 @@
 import json
 import random
+import time
 
 def load_word_lists(filename):
     with open(filename, 'r', encoding='utf-8') as file:
@@ -57,10 +58,18 @@ def display_errors(word_list, mode, list_number, round_count, error_tracker):
             else:  # 英译中
                 print(f"{word} - {word_list[word]} 错误 {count} 次")
 
+def format_time(seconds):
+    hours = seconds // 3600
+    minutes = (seconds % 3600) // 60
+    seconds = seconds % 60
+    return f"{int(hours)}小时 {int(minutes)}分钟 {int(seconds)}秒 "
+
 def main():
     word_lists = load_word_lists("word_lists.json")
     full_list_name, list_number = select_list(word_lists)
     mode = select_mode()
+
+    start_time = time.time()  # 开始计时
 
     word_list = word_lists[full_list_name]
     error_tracker = {word: 0 for word in word_list.keys()}
@@ -72,8 +81,12 @@ def main():
         wrong_words = test_words(dict(wrong_words), mode, error_tracker)
         round_count += 1
 
+    end_time = time.time()  # 结束计时
+    total_time = end_time - start_time  # 计算总用时
+
     print("\n所有单词测试完毕！")
     display_errors(word_list, mode, list_number, round_count - 1, error_tracker)
+    print(f"\n本组单词测试用时：{format_time(total_time)}")
 
 if __name__ == "__main__":
     main()
