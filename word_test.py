@@ -1,6 +1,7 @@
 import json
 import random
 import time
+import pygame
 
 def load_word_lists(filename):
     with open(filename, 'r', encoding='utf-8') as file:
@@ -33,6 +34,7 @@ def test_words(word_list, mode, error_tracker):
     words = list(word_list.items())
     random.shuffle(words)
     wrong_words = []
+    continuous_correct = 0
 
     for i, (word, translation) in enumerate(words, start=1):
         while True:
@@ -45,7 +47,7 @@ def test_words(word_list, mode, error_tracker):
                     print(f"提示：本单词的首字母是 '{word[0]}'.")
                     continue
                 correct = answer.strip().lower() == word.lower()
-            else:  # 英译中模式
+            else:
                 print(word)
                 input("按下Enter显示中文意思...")
                 print(f"中文意思：{translation}")
@@ -53,9 +55,12 @@ def test_words(word_list, mode, error_tracker):
                 correct = answer.strip() == '1'
 
             if correct:
+                continuous_correct += 1
+                play_kill_sound(continuous_correct)
                 print(f"正确！进度：{i}/{len(words)}")
                 break
             else:
+                continuous_correct = 0
                 print(f"错误！正确答案是：{'英文' if mode == 1 else '中文'} - {word if mode == 1 else translation}")
                 wrong_words.append((word, translation))
                 error_tracker[word] += 1
@@ -63,6 +68,11 @@ def test_words(word_list, mode, error_tracker):
 
     return wrong_words
 
+def play_kill_sound(kills):
+    pygame.mixer.init()
+    sound_file = f"k{min(kills, 5)}.mp3"
+    pygame.mixer.music.load(sound_file)
+    pygame.mixer.music.play()
 
 def display_errors(word_list, mode, list_number, round_count, error_tracker):
     if list_number == "彩蛋模式":
@@ -73,16 +83,16 @@ def display_errors(word_list, mode, list_number, round_count, error_tracker):
     sorted_errors = sorted(error_tracker.items(), key=lambda item: item[1], reverse=True)
     for word, count in sorted_errors:
         if count > 0:
-            if mode == 1:  # 中译英
+            if mode == 1:
                 print(f"{word_list[word]} - {word} 错误 {count} 次")
-            else:  # 英译中
+            else:
                 print(f"{word} - {word_list[word]} 错误 {count} 次")
 
 def format_time(seconds):
     hours = seconds // 3600
     minutes = (seconds % 3600) // 60
     seconds = seconds % 60
-    return f"{int(hours)}小时 {int(minutes)}分钟 {int(seconds)}秒"
+    return f"{int(hours)}小时{int(minutes)}分钟{int(seconds)}秒"
 
 def main():
     word_lists = load_word_lists("word_lists.json")
