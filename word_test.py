@@ -44,13 +44,13 @@ def test_words(word_list, mode, error_tracker):
                     print(f"提示：本单词有 {len(word)} 个字母。")
                     continue
                 elif answer.strip() == '2':
-                    print(f"提示：本单词的首字母是 '{word[0]}'.")
+                    print(f"提示：本单词的首字母是 '{word[0]}'.") 
                     continue
                 correct = answer.strip().lower() == word.lower()
             else:
                 print(word)
-                input("按下Enter显示中文意思...")
-                print(f"中文意思：{translation}")
+                input("按下Enter显示中文...")
+                print(f"{translation}")
                 answer = input("是否做对了？(1: 正确, 0: 错误): ")
                 correct = answer.strip() == '1'
 
