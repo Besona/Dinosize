@@ -2121,5 +2121,37 @@
       "apple": "苹果",
       "banana": "香蕉",
       "coconut": "椰子"
-    }
+    },
+
+    "list101": {
+    "nostalgic": "怀旧的",
+    "transitional": "过渡",
+    "gush": "夸赞(喷涌, 滔滔不绝地讲)",
+    "transpose": "使变位, 变换顺序",
+    "sample": "采样",
+    "plugin": "插件",
+    "primarily": "主要地",
+    "rip": "裂口(n.), 撕裂(v.)",
+    "insightful": "有洞察力的, 有深刻见解的",
+    "duty cycle": "占空比(音频术语)",
+    "essentially": "本质上",
+    "vibrato": "颤音, 抑扬顿挫",
+    "reverb": "混响",
+    "oscillator": "振荡器",
+    "octave": "八度音阶",
+    "envelope": "包络",
+    "abruptly": "唐突地",
+    "pitch": "球场，音高",
+    "equalization": "均等化",
+    "automation": "自动化",
+    "pizzicato": "拨奏的, 指弹的",
+    "glockenspiel": "钟琴",
+    "demonetized": "使通货废止使用",
+    "atmospheric": "制造气氛的",
+    "fair game": "猎物",
+    "cheesiest": "最下等的",
+    "ins and outs": "来龙去脉",
+    "realm": "领域",
+    "emulate": "与…竞争, 努力赶上"
+  }
 }
